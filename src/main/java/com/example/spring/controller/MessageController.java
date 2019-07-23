@@ -29,15 +29,6 @@ public class MessageController {
         return getMessage(id);
     }
 
-    private Map<String, String> getMessage(@PathVariable String id) {
-        return messages
-                .stream()
-                .filter(message -> message.get("id").equals(id))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
-    }
-
-
     @PostMapping
     public Map<String, String> putMessage(@RequestBody Map<String, String> message){
         message.put("id",String.valueOf(counter++));
@@ -57,5 +48,13 @@ public class MessageController {
     public void delete(@PathVariable String id){
         Map<String, String> messageFromDB = getMessage(id);
         messages.remove(messageFromDB);
+    }
+
+    private Map<String, String> getMessage(@PathVariable String id) {
+        return messages
+                .stream()
+                .filter(message -> message.get("id").equals(id))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
     }
 }
